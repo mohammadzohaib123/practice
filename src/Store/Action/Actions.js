@@ -9,9 +9,10 @@ export default class Actions
     static SET_STATUS_FAILURE='SET_STATUS_FAILURE';
 
     static setOrders(order_Key){
+        console.log(order_Key);
         return{
             type:Actions.SET_STATUS_REQUEST,
-           // payload:order_Key
+            payload:order_Key
         }
     }
     static statusFailure(message){

@@ -22,11 +22,10 @@ export class Epic{
 
     static setStatusOnFirebase(action$){
         return action$.ofType(Actions.SET_STATUS_REQUEST).switchMap(({payload}) => {
-            console.log(action$)
-            return Observable.fromPromise(setStatus()).map((array)  => {
+            return Observable.fromPromise(setStatus(payload)).map((array)  => {
                 return{
                     type:Actions.SET_STATUS_SUCCESS,
-                    payload:array.val()
+                    payload:array
                 }
             }).catch((error) =>{
                 return Observable.of(Actions.statusFailure(error.message))

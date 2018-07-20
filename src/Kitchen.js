@@ -12,21 +12,16 @@ class App extends Component {
     
       console.log(this.props.getOrders())
      }
-  statusHandler=()=>{
-      this.props.setOrders();
+  statusHandler=(key)=>{
+      console.log(key)
+      this.props.setOrders(key);
   }
   getData=()=>{
     var obj=this.props.orders;               //{-LHlul1Qfc02kX9h04Vv: {…}}
-    console.log(obj);
+    // console.log(obj);
    var key1=Object.keys(obj);                 //["-LHlul1Qfc02kX9h04Vv"]
    var entries=Object.entries(obj);            //[Array(2)]
-   var entry=entries[0][1];//{ETA: 1531994528783, history: {…}, items: Array(6), status: "confirmed", timeCreated: 1531993328783}
-   var history=Object.values(entry);          //(5) [1531994528783, {…}, Array(6), "confirmed", 1531993328783]
-   var item_Obj=history[1]
-   var items =Object.keys(item_Obj);   //(2) ["-LHmMCt1UsbWz3rnRhls", Array(5)]
-   var all_item= item_Obj[items];
-      console.log(all_item);
-      this.setState({key:key1,renderArray:all_item})
+      this.setState({key:key1,renderArray:entries})
   }
   render() {
       return (
@@ -37,20 +32,54 @@ class App extends Component {
         </Button>
         
         {
-            this.state.renderArray.map(obj=>{
-              return <Paper style={{width:"40%"}}><li><ol>
-              Item:{obj.item}<br /> Price:{obj.price} <br /> Quantity:{obj.qty} <br /> Status: {obj.status}
-              <br />
-              <input type="submit" value="Queued" onClick={()=>this.statusHandler()} />
-              <input type="submit" value="Cooked" onClick={()=> this.statusHandler()}/>
-              <input type="submit" value="Delivered" onClick={()=> this.statusHandler()}/>
-                </ol></li>        </Paper>
-            })
-             
-          }
+            this.state.renderArray.map(value=>{
+              console.log(value);
+              var history = value[1].history ? Object.entries(value[1].history) : [];
+
+            return history.map(val=>{
+                  console.log(val);
+                //   var historyVal = val[1].history ? Object.entries(val[1].history) : [];
+            return val[1].map((obj, i)=>{
+                    console.log(obj.item);
+        return <Paper style={{width:"40%"}}>
+         <ul>
+             <li><ol>
+            Item:{obj.item}<br /> Price:{obj.price} <br /> Quantity:{obj.qty} <br /> Status: {obj.status}
+         <br />
+         <input type="submit" value="Queued" onClick={()=>this.statusHandler({path: value[0]+"/history/"+val[0]+"/"+i.toString(), val: {...obj, status: "Queued"}})} />
+             <input type="submit" value="Cooked" onClick={()=> this.statusHandler({path: value[0]+"/history/"+val[0]+"/"+i.toString(), val: {...obj, status: "Cooked"}})}/>
+             <input type="submit" value="Delivered" onClick={()=> this.statusHandler({path: value[0]+"/history/"+val[0]+"/"+i.toString(), val: {...obj, status: "Delieverd"}})}/>
+               </ol></li>        
+         </ul>
+        </Paper>
+                    })
+                })
+                       
+          })
+        }
               
-          </div>
-      )
+      </div>
+    //        <div>
+    //        {/* <input type="submit" value="GET DATA" onClick={()=> this.getData()} /> */}
+    //        <Button variant="contained" size="large" color="primary" style={{textAlign:"center",marginLeft:250,marginTop:70}}  type="submit" value="GET DATA" onClick={()=> this.getData()}>
+    //    Large
+    //  </Button>
+     
+    //  {
+    //      this.state.renderArray.map(obj=>{
+    //        return <Paper style={{width:"40%"}}><li><ol>
+    //        Item:{obj.item}<br /> Price:{obj.price} <br /> Quantity:{obj.qty} <br /> Status: {obj.status}
+    //        <br />
+    //        <input type="submit" value="Queued" onClick={()=>this.statusHandler()} />
+    //        <input type="submit" value="Cooked" onClick={()=> this.statusHandler()}/>
+    //        <input type="submit" value="Delivered" onClick={()=> this.statusHandler()}/>
+    //          </ol></li>        </Paper>
+    //      })
+          
+    //    }
+           
+    //    </div>
+        )
     }
 }
 const mapStateToProps = state => {
@@ -67,8 +96,9 @@ const mapDispatchToProps = dispatch => {
         getOrders: () => {
         return dispatch(Actions.getOrders());
       },
-      setOrders: () => {
-        return dispatch(Actions.setOrders());
+      setOrders: (key) => {
+          console.log(key)
+        return dispatch(Actions.setOrders(key));
       }
     };
   };

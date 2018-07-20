@@ -1,3 +1,4 @@
+import Actions from '../Action/Actions'
 import firebase from 'firebase';
 var config = {
     apiKey: "AIzaSyByBZkTRSWftSWmZ4GJIgICuhQyI0SQ8ys",
@@ -19,17 +20,19 @@ var config = {
      })
  }
   
- export function setStatus(){
+ export function setStatus(key){
+     console.log(key)
      return new Promise((res,rej)=>{
-         fireDatabase.child('Restaurants/OcPCTJHEU3MZKu619Ry8OdhhaVg2/Kitchen/Orders/-LHlul1Qfc02kX9h04Vv/history/-LHmMCt1UsbWz3rnRhls').set({
-            name: "asss"
+         fireDatabase.child('Restaurants/OcPCTJHEU3MZKu619Ry8OdhhaVg2/Kitchen/Orders/'+key.path).set({
+             ...key.val
           },
           () => {
             console.log('in resolve')
             res({
-              name:"asss"
+              status:"abc"
             });//res end
           }//() end
         );//.set end
+          
     });
 }
