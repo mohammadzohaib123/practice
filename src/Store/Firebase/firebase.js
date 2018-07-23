@@ -1,4 +1,3 @@
-import Actions from '../Action/Actions'
 import firebase from 'firebase';
 var config = {
     apiKey: "AIzaSyByBZkTRSWftSWmZ4GJIgICuhQyI0SQ8ys",
@@ -19,7 +18,6 @@ var config = {
          })
      })
  }
-  
  export function setStatus(key){
      console.log(key)
      return new Promise((res,rej)=>{
@@ -35,4 +33,12 @@ var config = {
         );//.set end
           
     });
+}
+export function changeStatus(key){
+    console.log(key)
+    return new Promise ((res)=>{
+        fireDatabase.child('Restaurants/OcPCTJHEU3MZKu619Ry8OdhhaVg2/Kitchen/Orders/'+key.key).set({
+           ...key.val
+        })
+    })
 }

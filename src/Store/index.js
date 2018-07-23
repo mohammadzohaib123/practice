@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   reducer
 });
 export const rootEpic = combineEpics(
-    Epic.getOrdersFromFirebase,Epic.setStatusOnFirebase
+    Epic.getOrdersFromFirebase,Epic.setStatusOnFirebase,Epic.changeStatusOnFirebase
   );
 const epicMiddleware = createEpicMiddleware(rootEpic);
 

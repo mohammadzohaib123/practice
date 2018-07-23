@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import Actions from "../Action/Actions";
-import { getData, setStatus } from '../Firebase/firebase';
+import { getData, setStatus, changeStatus} from '../Firebase/firebase';
 
 
 export class Epic{
@@ -25,6 +25,19 @@ export class Epic{
             return Observable.fromPromise(setStatus(payload)).map((array)  => {
                 return{
                     type:Actions.SET_STATUS_SUCCESS,
+                    payload:array
+                }
+            }).catch((error) =>{
+                return Observable.of(Actions.statusFailure(error.message))
+            })
+        })
+    }
+    static changeStatusOnFirebase(action$){
+        return action$.ofType(Actions.CHANGE_STATUS_REQUEST).switchMap(({payload}) => {
+            console.log(payload)
+            return Observable.fromPromise(changeStatus(payload)).map((array)  => {
+                return{
+                    type:Actions.CHANGE_STATUS_SUCCESS,
                     payload:array
                 }
             }).catch((error) =>{

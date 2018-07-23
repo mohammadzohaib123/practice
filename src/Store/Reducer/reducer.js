@@ -21,6 +21,13 @@ export default function reducer(state=INITIAL_STATE,action)
        return Object.assign({},state,{isLoading:"false"});
        case Actions.SET_STATUS_FAILURE:
        return Object.assign({},state,{isLoading:"false",isError:"true",errorMessage:action.payload});
+
+       case Actions.CHANGE_STATUS_REQUEST:
+       return Object.assign({},state,{isLoading:"true"});
+       case Actions.CHANGE_STATUS_SUCCESS:
+       return Object.assign({},state,{isLoading:"false"});
+       case Actions.CHANGE_STATUS_FAILURE:
+       return Object.assign({},state,{isLoading:"false",isError:"true",errorMessage:action.payload});
         default:
         return state;
     }
