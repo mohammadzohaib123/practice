@@ -12,9 +12,8 @@ var config = {
 
  export function getData(){
      return new Promise((res,rej)=>{
-         fireDatabase.child('Restaurants/OcPCTJHEU3MZKu619Ry8OdhhaVg2/Kitchen/Orders').once("value",(snapshot)=>{
-             console.log(snapshot);
-             res(snapshot)
+         fireDatabase.child('Restaurants/OcPCTJHEU3MZKu619Ry8OdhhaVg2/Tables').once("value",(snapshot)=>{
+             res(snapshotToArray(snapshot))
          })
      })
  }
@@ -42,3 +41,38 @@ export function changeStatus(key){
         })
     })
 }
+
+// function snapshotToArray(snapshot) {
+//     var returnArr = [];
+//     var key=[];
+//     var item=[];
+//     snapshot.forEach(function(childSnapshot) {
+//         console.log(childSnapshot.val())
+//         var item = childSnapshot.val();
+//         item.key = childSnapshot.key;
+//         returnArr.push(item);
+//     });
+//     //  returnArr.map(value=>{
+//     //     console.log(value.Orders);
+//     //     var order=value.Orders
+//     //     key.push(Object.keys(order));
+//     //     console.log(key)
+//     //     item.push(Object.values(order))
+//     //     console.log(item);
+//     //  })
+//  return returnArr;
+// };
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+    var returnKey=[];
+    snapshot.forEach(function(childSnapshot) {
+        console.log(childSnapshot.val())
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        returnKey.push(item.key);
+        returnArr.push(item);
+    });
+
+
+    return {returnArr,returnKey};
+};

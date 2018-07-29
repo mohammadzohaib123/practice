@@ -4,10 +4,10 @@ import {Provider} from 'react-redux';
 import {store}from './Store/index';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import Navbar from './Container/Navbar'
-import Kitchen from './Kitchen';
+import App from './Component/App'
+
 
 ReactDOM.render(<Provider store={store} >
-    <div><Navbar /><Kitchen/></div>
+    <App />
     </Provider>, document.getElementById('root'));
 registerServiceWorker();
